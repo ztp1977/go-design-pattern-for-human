@@ -1,14 +1,14 @@
 package go_test_summary
 
 import (
-	"testing"
-	"fmt"
-	"strconv"
-	"testing/quick"
-	"os"
 	"bufio"
+	"fmt"
 	"io"
+	"os"
+	"strconv"
 	"strings"
+	"testing"
+	"testing/quick"
 )
 
 func TestComputer(t *testing.T) {
@@ -22,8 +22,8 @@ func TestComputer(t *testing.T) {
 }
 
 func TestComputerForTable(t *testing.T) {
-	computerTests := []struct{
-		in string
+	computerTests := []struct {
+		in  string
 		out string
 	}{
 		{"1+1", "2"},
@@ -150,8 +150,8 @@ func SetupComputeTestWithStruct(tb testing.TB, fname string) *computeTest {
 
 	return &computeTest{
 		TB: tb,
-		f: f,
-		r: bufio.NewReader(f),
+		f:  f,
+		r:  bufio.NewReader(f),
 	}
 }
 
@@ -181,5 +181,13 @@ func TestComputeForStruct(tt *testing.T) {
 			break
 		}
 		testCompute(tt, in, out)
+	}
+}
+
+func BenchmarkCompute(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		quick.Check(func(a, b int16) {
+			Compute(fmt.Sprintf("%d+%d", a, b))
+		}, nil)
 	}
 }
